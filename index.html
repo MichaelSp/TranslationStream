@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Cache-control" content="no-cache">
+    <style>
+        body {margin: 0px; height: 100%;}
+        main {
+            background: #DDD;
+            padding: 20px;
+            margin: 0 auto;
+            width: 900px;
+            height: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<!-- 
+
+# INSTALL
+##############
+
+sudo apt-get install qrencode icecast2
+
+
+# START 
+###############
+
+sudo service start icecast2
+
+cvlc alsa://default :live-caching=500 --sout-shout-mp3 :sout="#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:std{access=shout,mux=mp3,dst=source:hackme@localhost:8000/stream.mp3}"
+cvlc alsa://default :live-caching=500 :sout="#transcode{vcodec=none,acodec=ogg,ab=128,channels=2,samplerate=44100}:std{access=shout,mux=ogg,dst=source:hackme@localhost:8000/stream.ogg}"
+
+# run server
+
+cd DEST_DIR && ruby -run -e httpd -- -p 5000 .
+
+
+
+# OTHER
+#######
+cvlc "pulse://alsa_input.pci-0000_00_1b.0.analog-stereo" "--sout=#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:std{access=http,mux=mp3,dst=192.168.188.20:8080}" :sout-keep
+
+http direct
+cvlc alsa://default :live-caching=500 --sout-shout-mp3 :sout="#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:std{access=http,mux=mp3,dst=localhost:8000}"
+cvlc "pulse://alsa_input.pci-0000_00_1b.0.analog-stereo"  :live-caching=500  --sout '#standard{access=http,mux=mp3,dst=localhost:8080}'
+cvlc "pulse://alsa_input.pci-0000_00_1b.0.analog-stereo"  :live-caching=500  --sout '#standard{access=http,mux=ogg,dst=localhost:8081}'
+
+-->
+<body>
+    <main>
+        <h1>Translation Service</h1>
+	<audio controls="">
+	    <source src="http://192.168.188.20:8000/stream.mp3" type="audio/mpeg">
+	    <source src="http://192.168.188.20:8000/stream.ogg" type="audio/ogg">
+	</audio>
+	<br><br><br><br><br><br>
+	<br><br><br><br><br><br>
+	<img src="stream_qrc.png" alt="Connection code"><br />
+	<a href="http://192.168.188.20:8000">http://192.168.188.20:8000</a>
+	<br><br>
+	<p>Scan Code &amp; open with browser.</p>
+	<br><br><br><br>
+	<br><br><br><br><br><br>
+    </main>
+
+
+
+</body>
