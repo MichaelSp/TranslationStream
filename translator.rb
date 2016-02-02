@@ -25,15 +25,16 @@ outdata = File.read(filename).gsub(/<a(href=.*)?>.*<\/a>/, "<a href=#{stream_url
 
 File.open(filename, 'w') do |out|
   out << outdata
-end  
+end
 
-
-puts "Start Icecast2 (su required)"
-`sudo service icecast2 start`
-
+if `systemctl is-active icecast2.service` != 'active'
+    puts "Start Icecast2 (su required)"
+    `sudo service icecast2 start`
+end
 
 puts "Stargin Webserver on #{web_url}"
-server = WEBrick::HTTPServer.new Port: http_port, BindAddress: host_ip
+server = WEBrick::HTTPServer.new Port: http_port, BindAddress: host_ip,
+                                 DocumentRoot: Dir.pwd, DocumentRootOptions: {FancyIndexing: false}
 trap 'INT' do 
     begin 
         server.shutdown
